@@ -13,13 +13,21 @@ export function getPipedQuery() {
 }
 
 export async function getJson(url, opts) {
-  const errs = useAlert(),
-    res = await fetch(url, opts)
-      .then(res => res.json())
-      .catch(err => {
-        console.error(err);
-        errs.add(err);
-      });
+  const errs = useAlert();
+  let res = await fetch(url, opts)
+    .then(res => res.json())
+    .catch(err => {
+      console.error(err);
+      errs.add(err);
+    });
+
+  if (res) {
+    const responseString = JSON.stringify(res).replaceAll(
+      'https://hyperpipe-proxy.onrender.com/',
+      'https://pipedproxy.frontendfriendly.xyz/'
+    );
+    res = JSON.parse(responseString);
+  }
 
   if (res && res.error) {
     errs.add(
@@ -32,7 +40,9 @@ export async function getJson(url, opts) {
     );
 
     console.error(res.message);
-  } else if (res) return JSON.parse(useSanitize(JSON.stringify(res)));
+  } else if (res) {
+    return JSON.parse(useSanitize(JSON.stringify(res)));
+  }
 }
 
 export async function getJsonPiped(path, opts) {
