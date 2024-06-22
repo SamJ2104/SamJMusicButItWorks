@@ -2,7 +2,7 @@ import { useStore, useSanitize } from './util.js';
 import { useAlert } from '@/stores/misc.js';
 
 export const PIPED_INSTANCE = 'pipedapi.kavin.rocks';
-export const HYPERPIPE_INSTANCE = 'hyperpipeapi.onrender.com';
+export const HYPERPIPE_INSTANCE = 'pipedproxy.frontendfriendly.xyz';
 
 export function getPipedQuery() {
   const papi = new URLSearchParams(location.search).get('pipedapi');
